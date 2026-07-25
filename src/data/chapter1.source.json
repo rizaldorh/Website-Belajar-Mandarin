@@ -1,0 +1,100 @@
+{
+  "title": "Menunggu Kelinci di Tunggul Pohon",
+  "chapterLabel": "Bab 1",
+  "paragraphs": [
+    {
+      "id": "p1",
+      "translation_id": "Dahulu, ada seorang petani yang sedang bertani di ladang. Suatu hari, seekor kelinci berlari sangat kencang, menabrak tunggul pohon di pinggir ladang, lalu mati. Petani itu sangat senang, memungut kelinci itu dan membawanya pulang. Sejak saat itu, dia setiap hari duduk di samping tunggul pohon, menunggu seekor kelinci lain muncul. Tetapi, dia tidak pernah lagi berhasil menunggu kelinci datang, dan tanaman di ladangnya pun jadi terbengkalai.",
+      "sentences": [
+        {
+          "id": "p1s1",
+          "tokens": [
+            { "hanzi": "从前", "pos": "adv", "hsk": 3, "gloss_id": "dahulu; pada zaman dahulu" },
+            { "hanzi": "，", "pos": "punct", "hsk": null, "gloss_id": "" },
+            { "hanzi": "有", "pos": "verb", "hsk": 1, "gloss_id": "ada" },
+            { "hanzi": "一个", "pos": "numeral", "hsk": 1, "gloss_id": "sebuah/seorang" },
+            { "hanzi": "农夫", "pos": "noun", "hsk": 4, "gloss_id": "petani" },
+            { "hanzi": "在", "pos": "function", "hsk": 1, "gloss_id": "di" },
+            { "hanzi": "地里", "pos": "noun", "hsk": null, "gloss_id": "di ladang" },
+            { "hanzi": "种地", "pos": "verb", "hsk": 4, "gloss_id": "bertani; menggarap sawah" },
+            { "hanzi": "。", "pos": "punct", "hsk": null, "gloss_id": "" }
+          ]
+        },
+        {
+          "id": "p1s2",
+          "tokens": [
+            { "hanzi": "有一天", "pos": "adv", "hsk": 2, "gloss_id": "suatu hari" },
+            { "hanzi": "，", "pos": "punct", "hsk": null, "gloss_id": "" },
+            { "hanzi": "一只", "pos": "numeral", "hsk": 1, "gloss_id": "seekor" },
+            { "hanzi": "兔子", "pos": "noun", "hsk": 4, "gloss_id": "kelinci" },
+            { "hanzi": "跑", "pos": "verb", "hsk": 2, "gloss_id": "berlari" },
+            { "hanzi": "得", "pos": "particle", "hsk": 3, "gloss_id": "(partikel pelengkap tingkat)" },
+            { "hanzi": "很快", "pos": "adv", "hsk": 1, "gloss_id": "sangat cepat" },
+            { "hanzi": "，", "pos": "punct", "hsk": null, "gloss_id": "" },
+            { "hanzi": "撞到", "pos": "verb", "hsk": null, "gloss_id": "menabrak" },
+            { "hanzi": "田边", "pos": "noun", "hsk": null, "gloss_id": "pinggir ladang" },
+            { "hanzi": "的", "pos": "particle", "hsk": 1, "gloss_id": "(partikel penghubung)" },
+            { "hanzi": "树桩", "pos": "noun", "hsk": null, "gloss_id": "tunggul pohon" },
+            { "hanzi": "，", "pos": "punct", "hsk": null, "gloss_id": "" },
+            { "hanzi": "就", "pos": "adv", "hsk": 2, "gloss_id": "lalu; kemudian" },
+            { "hanzi": "死", "pos": "verb", "hsk": 3, "gloss_id": "mati" },
+            { "hanzi": "了", "pos": "particle", "hsk": 1, "gloss_id": "(partikel aspek selesai)" },
+            { "hanzi": "。", "pos": "punct", "hsk": null, "gloss_id": "" }
+          ]
+        },
+        {
+          "id": "p1s3",
+          "tokens": [
+            { "hanzi": "农夫", "pos": "noun", "hsk": 4, "gloss_id": "petani" },
+            { "hanzi": "很", "pos": "adv", "hsk": 1, "gloss_id": "sangat" },
+            { "hanzi": "高兴", "pos": "adj", "hsk": 1, "gloss_id": "senang; gembira" },
+            { "hanzi": "，", "pos": "punct", "hsk": null, "gloss_id": "" },
+            { "hanzi": "捡起", "pos": "verb", "hsk": null, "gloss_id": "memungut; mengambil" },
+            { "hanzi": "兔子", "pos": "noun", "hsk": 4, "gloss_id": "kelinci" },
+            { "hanzi": "带回家", "pos": "verb", "hsk": null, "gloss_id": "membawa pulang" },
+            { "hanzi": "。", "pos": "punct", "hsk": null, "gloss_id": "" }
+          ]
+        },
+        {
+          "id": "p1s4",
+          "tokens": [
+            { "hanzi": "从那以后", "pos": "adv", "hsk": null, "gloss_id": "sejak saat itu" },
+            { "hanzi": "，", "pos": "punct", "hsk": null, "gloss_id": "" },
+            { "hanzi": "他", "pos": "pron", "hsk": 1, "gloss_id": "dia" },
+            { "hanzi": "每天", "pos": "adv", "hsk": 1, "gloss_id": "setiap hari" },
+            { "hanzi": "都", "pos": "adv", "hsk": 1, "gloss_id": "selalu; semua" },
+            { "hanzi": "坐在", "pos": "verb", "hsk": 2, "gloss_id": "duduk di" },
+            { "hanzi": "树桩", "pos": "noun", "hsk": null, "gloss_id": "tunggul pohon" },
+            { "hanzi": "旁边", "pos": "noun", "hsk": 2, "gloss_id": "di samping" },
+            { "hanzi": "，", "pos": "punct", "hsk": null, "gloss_id": "" },
+            { "hanzi": "等", "pos": "verb", "hsk": 1, "gloss_id": "menunggu" },
+            { "hanzi": "着", "pos": "particle", "hsk": 3, "gloss_id": "(partikel aspek berlangsung)" },
+            { "hanzi": "另一只", "pos": "numeral", "hsk": null, "gloss_id": "seekor lagi" },
+            { "hanzi": "兔子", "pos": "noun", "hsk": 4, "gloss_id": "kelinci" },
+            { "hanzi": "出现", "pos": "verb", "hsk": 3, "gloss_id": "muncul" },
+            { "hanzi": "。", "pos": "punct", "hsk": null, "gloss_id": "" }
+          ]
+        },
+        {
+          "id": "p1s5",
+          "tokens": [
+            { "hanzi": "可是", "pos": "function", "hsk": 2, "gloss_id": "tetapi" },
+            { "hanzi": "，", "pos": "punct", "hsk": null, "gloss_id": "" },
+            { "hanzi": "他", "pos": "pron", "hsk": 1, "gloss_id": "dia" },
+            { "hanzi": "再也没有", "pos": "adv", "hsk": null, "gloss_id": "tidak pernah lagi" },
+            { "hanzi": "等到", "pos": "verb", "hsk": null, "gloss_id": "berhasil menunggu" },
+            { "hanzi": "兔子", "pos": "noun", "hsk": 4, "gloss_id": "kelinci" },
+            { "hanzi": "，", "pos": "punct", "hsk": null, "gloss_id": "" },
+            { "hanzi": "地里", "pos": "noun", "hsk": null, "gloss_id": "di ladang" },
+            { "hanzi": "的", "pos": "particle", "hsk": 1, "gloss_id": "(partikel kepemilikan)" },
+            { "hanzi": "庄稼", "pos": "noun", "hsk": null, "gloss_id": "tanaman pertanian" },
+            { "hanzi": "也", "pos": "adv", "hsk": 1, "gloss_id": "juga" },
+            { "hanzi": "荒废", "pos": "verb", "hsk": null, "gloss_id": "terbengkalai" },
+            { "hanzi": "了", "pos": "particle", "hsk": 1, "gloss_id": "(partikel aspek selesai)" },
+            { "hanzi": "。", "pos": "punct", "hsk": null, "gloss_id": "" }
+          ]
+        }
+      ]
+    }
+  ]
+}

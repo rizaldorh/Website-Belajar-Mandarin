@@ -1,0 +1,478 @@
+{
+  "title": "Menunggu Kelinci di Tunggul Pohon",
+  "chapterLabel": "Bab 1",
+  "paragraphs": [
+    {
+      "id": "p1",
+      "translation_id": "Dahulu, ada seorang petani yang sedang bertani di ladang. Suatu hari, seekor kelinci berlari sangat kencang, menabrak tunggul pohon di pinggir ladang, lalu mati. Petani itu sangat senang, memungut kelinci itu dan membawanya pulang. Sejak saat itu, dia setiap hari duduk di samping tunggul pohon, menunggu seekor kelinci lain muncul. Tetapi, dia tidak pernah lagi berhasil menunggu kelinci datang, dan tanaman di ladangnya pun jadi terbengkalai.",
+      "sentences": [
+        {
+          "id": "p1s1",
+          "tokens": [
+            {
+              "hanzi": "从前",
+              "pos": "adv",
+              "hsk": 3,
+              "gloss_id": "dahulu; pada zaman dahulu",
+              "pinyin": "cóng qián"
+            },
+            {
+              "hanzi": "，",
+              "pos": "punct",
+              "hsk": null,
+              "gloss_id": "",
+              "pinyin": ""
+            },
+            {
+              "hanzi": "有",
+              "pos": "verb",
+              "hsk": 1,
+              "gloss_id": "ada",
+              "pinyin": "yǒu"
+            },
+            {
+              "hanzi": "一个",
+              "pos": "numeral",
+              "hsk": 1,
+              "gloss_id": "sebuah/seorang",
+              "pinyin": "yí gè"
+            },
+            {
+              "hanzi": "农夫",
+              "pos": "noun",
+              "hsk": 4,
+              "gloss_id": "petani",
+              "pinyin": "nóng fū"
+            },
+            {
+              "hanzi": "在",
+              "pos": "function",
+              "hsk": 1,
+              "gloss_id": "di",
+              "pinyin": "zài"
+            },
+            {
+              "hanzi": "地里",
+              "pos": "noun",
+              "hsk": null,
+              "gloss_id": "di ladang",
+              "pinyin": "dì lǐ"
+            },
+            {
+              "hanzi": "种地",
+              "pos": "verb",
+              "hsk": 4,
+              "gloss_id": "bertani; menggarap sawah",
+              "pinyin": "zhòng dì"
+            },
+            {
+              "hanzi": "。",
+              "pos": "punct",
+              "hsk": null,
+              "gloss_id": "",
+              "pinyin": ""
+            }
+          ]
+        },
+        {
+          "id": "p1s2",
+          "tokens": [
+            {
+              "hanzi": "有一天",
+              "pos": "adv",
+              "hsk": 2,
+              "gloss_id": "suatu hari",
+              "pinyin": "yǒu yì tiān"
+            },
+            {
+              "hanzi": "，",
+              "pos": "punct",
+              "hsk": null,
+              "gloss_id": "",
+              "pinyin": ""
+            },
+            {
+              "hanzi": "一只",
+              "pos": "numeral",
+              "hsk": 1,
+              "gloss_id": "seekor",
+              "pinyin": "yì zhī"
+            },
+            {
+              "hanzi": "兔子",
+              "pos": "noun",
+              "hsk": 4,
+              "gloss_id": "kelinci",
+              "pinyin": "tù zi"
+            },
+            {
+              "hanzi": "跑",
+              "pos": "verb",
+              "hsk": 2,
+              "gloss_id": "berlari",
+              "pinyin": "pǎo"
+            },
+            {
+              "hanzi": "得",
+              "pos": "particle",
+              "hsk": 3,
+              "gloss_id": "(partikel pelengkap tingkat)",
+              "pinyin": "dé"
+            },
+            {
+              "hanzi": "很快",
+              "pos": "adv",
+              "hsk": 1,
+              "gloss_id": "sangat cepat",
+              "pinyin": "hěn kuài"
+            },
+            {
+              "hanzi": "，",
+              "pos": "punct",
+              "hsk": null,
+              "gloss_id": "",
+              "pinyin": ""
+            },
+            {
+              "hanzi": "撞到",
+              "pos": "verb",
+              "hsk": null,
+              "gloss_id": "menabrak",
+              "pinyin": "zhuàng dào"
+            },
+            {
+              "hanzi": "田边",
+              "pos": "noun",
+              "hsk": null,
+              "gloss_id": "pinggir ladang",
+              "pinyin": "tián biān"
+            },
+            {
+              "hanzi": "的",
+              "pos": "particle",
+              "hsk": 1,
+              "gloss_id": "(partikel penghubung)",
+              "pinyin": "de"
+            },
+            {
+              "hanzi": "树桩",
+              "pos": "noun",
+              "hsk": null,
+              "gloss_id": "tunggul pohon",
+              "pinyin": "shù zhuāng"
+            },
+            {
+              "hanzi": "，",
+              "pos": "punct",
+              "hsk": null,
+              "gloss_id": "",
+              "pinyin": ""
+            },
+            {
+              "hanzi": "就",
+              "pos": "adv",
+              "hsk": 2,
+              "gloss_id": "lalu; kemudian",
+              "pinyin": "jiù"
+            },
+            {
+              "hanzi": "死",
+              "pos": "verb",
+              "hsk": 3,
+              "gloss_id": "mati",
+              "pinyin": "sǐ"
+            },
+            {
+              "hanzi": "了",
+              "pos": "particle",
+              "hsk": 1,
+              "gloss_id": "(partikel aspek selesai)",
+              "pinyin": "liǎo"
+            },
+            {
+              "hanzi": "。",
+              "pos": "punct",
+              "hsk": null,
+              "gloss_id": "",
+              "pinyin": ""
+            }
+          ]
+        },
+        {
+          "id": "p1s3",
+          "tokens": [
+            {
+              "hanzi": "农夫",
+              "pos": "noun",
+              "hsk": 4,
+              "gloss_id": "petani",
+              "pinyin": "nóng fū"
+            },
+            {
+              "hanzi": "很",
+              "pos": "adv",
+              "hsk": 1,
+              "gloss_id": "sangat",
+              "pinyin": "hěn"
+            },
+            {
+              "hanzi": "高兴",
+              "pos": "adj",
+              "hsk": 1,
+              "gloss_id": "senang; gembira",
+              "pinyin": "gāo xìng"
+            },
+            {
+              "hanzi": "，",
+              "pos": "punct",
+              "hsk": null,
+              "gloss_id": "",
+              "pinyin": ""
+            },
+            {
+              "hanzi": "捡起",
+              "pos": "verb",
+              "hsk": null,
+              "gloss_id": "memungut; mengambil",
+              "pinyin": "jiǎn qǐ"
+            },
+            {
+              "hanzi": "兔子",
+              "pos": "noun",
+              "hsk": 4,
+              "gloss_id": "kelinci",
+              "pinyin": "tù zi"
+            },
+            {
+              "hanzi": "带回家",
+              "pos": "verb",
+              "hsk": null,
+              "gloss_id": "membawa pulang",
+              "pinyin": "dài huí jiā"
+            },
+            {
+              "hanzi": "。",
+              "pos": "punct",
+              "hsk": null,
+              "gloss_id": "",
+              "pinyin": ""
+            }
+          ]
+        },
+        {
+          "id": "p1s4",
+          "tokens": [
+            {
+              "hanzi": "从那以后",
+              "pos": "adv",
+              "hsk": null,
+              "gloss_id": "sejak saat itu",
+              "pinyin": "cóng nà yǐ hòu"
+            },
+            {
+              "hanzi": "，",
+              "pos": "punct",
+              "hsk": null,
+              "gloss_id": "",
+              "pinyin": ""
+            },
+            {
+              "hanzi": "他",
+              "pos": "pron",
+              "hsk": 1,
+              "gloss_id": "dia",
+              "pinyin": "tā"
+            },
+            {
+              "hanzi": "每天",
+              "pos": "adv",
+              "hsk": 1,
+              "gloss_id": "setiap hari",
+              "pinyin": "měi tiān"
+            },
+            {
+              "hanzi": "都",
+              "pos": "adv",
+              "hsk": 1,
+              "gloss_id": "selalu; semua",
+              "pinyin": "dōu"
+            },
+            {
+              "hanzi": "坐在",
+              "pos": "verb",
+              "hsk": 2,
+              "gloss_id": "duduk di",
+              "pinyin": "zuò zài"
+            },
+            {
+              "hanzi": "树桩",
+              "pos": "noun",
+              "hsk": null,
+              "gloss_id": "tunggul pohon",
+              "pinyin": "shù zhuāng"
+            },
+            {
+              "hanzi": "旁边",
+              "pos": "noun",
+              "hsk": 2,
+              "gloss_id": "di samping",
+              "pinyin": "páng biān"
+            },
+            {
+              "hanzi": "，",
+              "pos": "punct",
+              "hsk": null,
+              "gloss_id": "",
+              "pinyin": ""
+            },
+            {
+              "hanzi": "等",
+              "pos": "verb",
+              "hsk": 1,
+              "gloss_id": "menunggu",
+              "pinyin": "děng"
+            },
+            {
+              "hanzi": "着",
+              "pos": "particle",
+              "hsk": 3,
+              "gloss_id": "(partikel aspek berlangsung)",
+              "pinyin": "zhe"
+            },
+            {
+              "hanzi": "另一只",
+              "pos": "numeral",
+              "hsk": null,
+              "gloss_id": "seekor lagi",
+              "pinyin": "lìng yì zhī"
+            },
+            {
+              "hanzi": "兔子",
+              "pos": "noun",
+              "hsk": 4,
+              "gloss_id": "kelinci",
+              "pinyin": "tù zi"
+            },
+            {
+              "hanzi": "出现",
+              "pos": "verb",
+              "hsk": 3,
+              "gloss_id": "muncul",
+              "pinyin": "chū xiàn"
+            },
+            {
+              "hanzi": "。",
+              "pos": "punct",
+              "hsk": null,
+              "gloss_id": "",
+              "pinyin": ""
+            }
+          ]
+        },
+        {
+          "id": "p1s5",
+          "tokens": [
+            {
+              "hanzi": "可是",
+              "pos": "function",
+              "hsk": 2,
+              "gloss_id": "tetapi",
+              "pinyin": "kě shì"
+            },
+            {
+              "hanzi": "，",
+              "pos": "punct",
+              "hsk": null,
+              "gloss_id": "",
+              "pinyin": ""
+            },
+            {
+              "hanzi": "他",
+              "pos": "pron",
+              "hsk": 1,
+              "gloss_id": "dia",
+              "pinyin": "tā"
+            },
+            {
+              "hanzi": "再也没有",
+              "pos": "adv",
+              "hsk": null,
+              "gloss_id": "tidak pernah lagi",
+              "pinyin": "zài yě méi yǒu"
+            },
+            {
+              "hanzi": "等到",
+              "pos": "verb",
+              "hsk": null,
+              "gloss_id": "berhasil menunggu",
+              "pinyin": "děng dào"
+            },
+            {
+              "hanzi": "兔子",
+              "pos": "noun",
+              "hsk": 4,
+              "gloss_id": "kelinci",
+              "pinyin": "tù zi"
+            },
+            {
+              "hanzi": "，",
+              "pos": "punct",
+              "hsk": null,
+              "gloss_id": "",
+              "pinyin": ""
+            },
+            {
+              "hanzi": "地里",
+              "pos": "noun",
+              "hsk": null,
+              "gloss_id": "di ladang",
+              "pinyin": "dì lǐ"
+            },
+            {
+              "hanzi": "的",
+              "pos": "particle",
+              "hsk": 1,
+              "gloss_id": "(partikel kepemilikan)",
+              "pinyin": "de"
+            },
+            {
+              "hanzi": "庄稼",
+              "pos": "noun",
+              "hsk": null,
+              "gloss_id": "tanaman pertanian",
+              "pinyin": "zhuāng jia"
+            },
+            {
+              "hanzi": "也",
+              "pos": "adv",
+              "hsk": 1,
+              "gloss_id": "juga",
+              "pinyin": "yě"
+            },
+            {
+              "hanzi": "荒废",
+              "pos": "verb",
+              "hsk": null,
+              "gloss_id": "terbengkalai",
+              "pinyin": "huāng fèi"
+            },
+            {
+              "hanzi": "了",
+              "pos": "particle",
+              "hsk": 1,
+              "gloss_id": "(partikel aspek selesai)",
+              "pinyin": "liǎo"
+            },
+            {
+              "hanzi": "。",
+              "pos": "punct",
+              "hsk": null,
+              "gloss_id": "",
+              "pinyin": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
