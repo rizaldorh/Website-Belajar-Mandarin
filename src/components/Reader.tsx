@@ -13,6 +13,7 @@ export default function Reader() {
   const showChinese = useReaderStore((s) => s.showChinese);
   const showTranslation = useReaderStore((s) => s.showTranslation);
   const activeTokenId = useReaderStore((s) => s.activeTokenId);
+  const setActiveTokenId = useReaderStore((s) => s.setActiveTokenId);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
   useEffect(() => {
@@ -20,8 +21,13 @@ export default function Reader() {
       setAnchorEl(null);
       return;
     }
+    if (!showChinese) {
+      setActiveTokenId(null);
+      setAnchorEl(null);
+      return;
+    }
     setAnchorEl(document.querySelector<HTMLElement>(`[data-token-id="${activeTokenId}"]`));
-  }, [activeTokenId]);
+  }, [activeTokenId, showChinese, setActiveTokenId]);
 
   if (!showChinese && !showTranslation) {
     return (

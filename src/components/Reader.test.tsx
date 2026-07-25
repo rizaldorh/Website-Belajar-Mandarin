@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it } from 'vitest';
 import Reader from './Reader';
 import { useReaderStore } from '../store/readerStore';
@@ -31,5 +31,16 @@ describe('Reader', () => {
     useReaderStore.getState().toggleChinese();
     render(<Reader />);
     expect(screen.getByText(/Tidak ada tampilan aktif/)).toBeInTheDocument();
+  });
+
+  it('closes the popup when Chinese text is hidden while a token is active', () => {
+    render(<Reader />);
+    fireEvent.click(screen.getByText('撞到'));
+    expect(screen.getByText('menabrak')).toBeInTheDocument();
+    act(() => {
+      useReaderStore.getState().toggleChinese();
+    });
+    expect(screen.queryByText('menabrak')).not.toBeInTheDocument();
+    expect(useReaderStore.getState().activeTokenId).toBe(null);
   });
 });
