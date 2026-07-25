@@ -29,4 +29,11 @@ describe('annotateWithPinyin', () => {
     );
     expect(result.paragraphs[0].sentences[0].tokens[0].pinyin).toBe('');
   });
+
+  it('uses neutral-tone le for 了 aspect-completion particle', () => {
+    const result = annotateWithPinyin(
+      chapterWithToken({ hanzi: '了', pos: 'particle', hsk: 1, gloss_id: '(partikel aspek selesai)' })
+    );
+    expect(result.paragraphs[0].sentences[0].tokens[0].pinyin).toBe('le');
+  });
 });

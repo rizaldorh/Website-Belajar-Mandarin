@@ -5,6 +5,14 @@ import { pinyin } from 'pinyin-pro';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
+// Manual overrides for polyphonic function words where context-aware pinyin is needed
+// Keyed by `hanzi_pos` to avoid false positives when the same character appears with different POS
+const PINYIN_OVERRIDES = {
+  '了_particle': 'le', // Aspect-completion particle (neutral tone), not 'liǎo' (finish/understand)
+  // Note: 得 (dé vs de) is a known pinyin-pro limitation that persists even with full-sentence context.
+  // If this becomes important in future chapters, add a '得_particle' override.
+};
+
 export function annotateWithPinyin(chapter) {
   return {
     ...chapter,
@@ -14,7 +22,10 @@ export function annotateWithPinyin(chapter) {
         ...sentence,
         tokens: sentence.tokens.map((token) => ({
           ...token,
-          pinyin: token.pos === 'punct' ? '' : pinyin(token.hanzi),
+          pinyin:
+            token.pos === 'punct'
+              ? ''
+              : PINYIN_OVERRIDES[`${token.hanzi}_${token.pos}`] || pinyin(token.hanzi),
         })),
       })),
     })),
