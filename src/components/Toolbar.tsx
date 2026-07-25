@@ -15,23 +15,25 @@ export default function Toolbar() {
   const togglePinyin = useReaderStore((s) => s.togglePinyin);
   const toggleTranslation = useReaderStore((s) => s.toggleTranslation);
   const setColorMode = useReaderStore((s) => s.setColorMode);
-  const timeoutIdsRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const playbackIdRef = useRef(0);
 
   useEffect(() => {
     return () => {
-      timeoutIdsRef.current.forEach(clearTimeout);
+      playbackIdRef.current += 1;
     };
   }, []);
 
   function readChapterAloud() {
-    timeoutIdsRef.current.forEach(clearTimeout);
-    timeoutIdsRef.current = [];
+    const playbackId = ++playbackIdRef.current;
     const sentences = chapter.paragraphs.flatMap((p) => p.sentences);
-    sentences.forEach((sentence, index) => {
-      const text = sentence.tokens.map((t) => t.hanzi).join('');
-      const id = setTimeout(() => tts.speak(text), index * 3000);
-      timeoutIdsRef.current.push(id);
-    });
+
+    function playAt(index: number) {
+      if (playbackId !== playbackIdRef.current || index >= sentences.length) return;
+      const text = sentences[index].tokens.map((t) => t.hanzi).join('');
+      tts.speak(text, 'zh-CN', () => playAt(index + 1));
+    }
+
+    playAt(0);
   }
 
   return (

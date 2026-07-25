@@ -25,44 +25,41 @@ describe('Toolbar', () => {
     expect(screen.getByText('Warna: Level HSK')).toBeInTheDocument();
   });
 
-  it('reads each sentence aloud in order on a delay', () => {
-    vi.useFakeTimers();
-    const speakSpy = vi.spyOn(tts, 'speak').mockImplementation(() => {});
+  it('reads each sentence in order, advancing only when the previous one finishes', () => {
+    const speakSpy = vi.spyOn(tts, 'speak').mockImplementation((_text, _lang, onEnd) => {
+      onEnd?.();
+    });
     render(<Toolbar />);
     fireEvent.click(screen.getByText('▶ Baca'));
+    expect(speakSpy).toHaveBeenCalledTimes(5); // chapter1.json has 5 sentences (p1s1-p1s5)
+  });
 
-    expect(speakSpy).not.toHaveBeenCalled();
-    vi.advanceTimersByTime(0);
+  it('cancels the previous read-aloud chain when clicked again before it finishes', () => {
+    const pendingOnEnds: Array<() => void> = [];
+    const speakSpy = vi.spyOn(tts, 'speak').mockImplementation((_text, _lang, onEnd) => {
+      if (onEnd) pendingOnEnds.push(onEnd);
+    });
+    render(<Toolbar />);
+    fireEvent.click(screen.getByText('▶ Baca'));
     expect(speakSpy).toHaveBeenCalledTimes(1);
-    vi.advanceTimersByTime(3000);
+    fireEvent.click(screen.getByText('▶ Baca'));
     expect(speakSpy).toHaveBeenCalledTimes(2);
-
-    vi.useRealTimers();
+    pendingOnEnds[0](); // the stale first chain's utterance "finishes" — should NOT advance
+    expect(speakSpy).toHaveBeenCalledTimes(2);
+    pendingOnEnds[1](); // the current chain's utterance finishes — SHOULD advance
+    expect(speakSpy).toHaveBeenCalledTimes(3);
   });
 
-  it('re-clicking Baca cancels leftover timers', () => {
-    vi.useFakeTimers();
-    const speakSpy = vi.spyOn(tts, 'speak').mockImplementation(() => {});
-    render(<Toolbar />);
-    fireEvent.click(screen.getByText('▶ Baca'));
-    vi.advanceTimersByTime(3000);
-    expect(speakSpy).toHaveBeenCalledTimes(2);
-    fireEvent.click(screen.getByText('▶ Baca'));
-    vi.advanceTimersByTime(12000);
-    expect(speakSpy).toHaveBeenCalledTimes(7);
-
-    vi.useRealTimers();
-  });
-
-  it('unmounting cancels pending timers', () => {
-    vi.useFakeTimers();
-    const speakSpy = vi.spyOn(tts, 'speak').mockImplementation(() => {});
+  it('does not continue the read-aloud chain after unmount', () => {
+    const pendingOnEnds: Array<() => void> = [];
+    const speakSpy = vi.spyOn(tts, 'speak').mockImplementation((_text, _lang, onEnd) => {
+      if (onEnd) pendingOnEnds.push(onEnd);
+    });
     const { unmount } = render(<Toolbar />);
     fireEvent.click(screen.getByText('▶ Baca'));
+    expect(speakSpy).toHaveBeenCalledTimes(1);
     unmount();
-    vi.advanceTimersByTime(15000);
-    expect(speakSpy).not.toHaveBeenCalled();
-
-    vi.useRealTimers();
+    pendingOnEnds[0]();
+    expect(speakSpy).toHaveBeenCalledTimes(1);
   });
 });
