@@ -1,14 +1,22 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import Toolbar from './Toolbar';
 import { useReaderStore } from '../store/readerStore';
 import * as tts from '../lib/tts';
 
 const initialState = useReaderStore.getState();
+const originalSpeechSynthesis = (window as unknown as { speechSynthesis?: unknown }).speechSynthesis;
 
 describe('Toolbar', () => {
   beforeEach(() => {
     useReaderStore.setState(initialState, true);
+    // jsdom does not implement speechSynthesis; stub it so tests exercise the
+    // "supported" path by default, matching a real browser with speech support.
+    (window as unknown as { speechSynthesis?: unknown }).speechSynthesis = { speak: vi.fn(), cancel: vi.fn() };
+  });
+
+  afterEach(() => {
+    (window as unknown as { speechSynthesis?: unknown }).speechSynthesis = originalSpeechSynthesis;
   });
 
   it('toggles Chinese visibility', () => {
@@ -61,5 +69,17 @@ describe('Toolbar', () => {
     unmount();
     pendingOnEnds[0]();
     expect(speakSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('shows the read-aloud button when speech synthesis is supported', () => {
+    render(<Toolbar />);
+    expect(screen.getByText('▶ Baca')).toBeInTheDocument();
+  });
+
+  it('hides the read-aloud button when speech synthesis is unsupported', () => {
+    delete (window as unknown as { speechSynthesis?: unknown }).speechSynthesis;
+
+    render(<Toolbar />);
+    expect(screen.queryByText('▶ Baca')).not.toBeInTheDocument();
   });
 });

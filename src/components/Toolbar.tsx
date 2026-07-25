@@ -69,13 +69,15 @@ export default function Toolbar() {
       >
         Warna: {colorMode === 'pos' ? 'Jenis kata' : 'Level HSK'}
       </button>
-      <button
-        type="button"
-        onClick={readChapterAloud}
-        className="rounded bg-yellow-400 px-3 py-1 text-sm font-semibold"
-      >
-        ▶ Baca
-      </button>
+      {tts.isSpeechSupported() && (
+        <button
+          type="button"
+          onClick={readChapterAloud}
+          className="rounded bg-yellow-400 px-3 py-1 text-sm font-semibold"
+        >
+          ▶ Baca
+        </button>
+      )}
     </div>
   );
 }
