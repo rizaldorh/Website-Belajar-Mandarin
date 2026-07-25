@@ -55,7 +55,7 @@ export default function Reader() {
               </span>
             ))}
           {showTranslation && <p className="mt-2 text-gray-700">{paragraph.translation_id}</p>}
-          <ParagraphActions translation={paragraph.translation_id} />
+          <ParagraphActions translation={paragraph.translation_id} hideButton={showTranslation} />
         </div>
       ))}
       {activeToken && anchorEl && (

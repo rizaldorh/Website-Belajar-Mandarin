@@ -2,10 +2,15 @@ import { useState } from 'react';
 
 interface ParagraphActionsProps {
   translation: string;
+  hideButton?: boolean;
 }
 
-export default function ParagraphActions({ translation }: ParagraphActionsProps) {
+export default function ParagraphActions({ translation, hideButton = false }: ParagraphActionsProps) {
   const [showTranslation, setShowTranslation] = useState(false);
+
+  if (hideButton) {
+    return null;
+  }
 
   return (
     <div className="mt-2">

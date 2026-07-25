@@ -9,4 +9,12 @@ describe('ParagraphActions', () => {
     fireEvent.click(screen.getByText('Terjemahkan'));
     expect(screen.getByText('Dahulu, ada seorang petani.')).toBeInTheDocument();
   });
+
+  it('renders nothing when hideButton is true', () => {
+    const { container } = render(
+      <ParagraphActions translation="Dahulu, ada seorang petani." hideButton />
+    );
+    expect(screen.queryByText('Terjemahkan')).not.toBeInTheDocument();
+    expect(container.firstChild).toBeNull();
+  });
 });
