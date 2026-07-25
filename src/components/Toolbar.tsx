@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import chapterData from '../data/chapter1.json';
 import type { Chapter } from '../types';
 import { useReaderStore } from '../store/readerStore';
@@ -14,12 +15,22 @@ export default function Toolbar() {
   const togglePinyin = useReaderStore((s) => s.togglePinyin);
   const toggleTranslation = useReaderStore((s) => s.toggleTranslation);
   const setColorMode = useReaderStore((s) => s.setColorMode);
+  const timeoutIdsRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+
+  useEffect(() => {
+    return () => {
+      timeoutIdsRef.current.forEach(clearTimeout);
+    };
+  }, []);
 
   function readChapterAloud() {
+    timeoutIdsRef.current.forEach(clearTimeout);
+    timeoutIdsRef.current = [];
     const sentences = chapter.paragraphs.flatMap((p) => p.sentences);
     sentences.forEach((sentence, index) => {
       const text = sentence.tokens.map((t) => t.hanzi).join('');
-      setTimeout(() => tts.speak(text), index * 3000);
+      const id = setTimeout(() => tts.speak(text), index * 3000);
+      timeoutIdsRef.current.push(id);
     });
   }
 

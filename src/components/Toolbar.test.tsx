@@ -39,4 +39,30 @@ describe('Toolbar', () => {
 
     vi.useRealTimers();
   });
+
+  it('re-clicking Baca cancels leftover timers', () => {
+    vi.useFakeTimers();
+    const speakSpy = vi.spyOn(tts, 'speak').mockImplementation(() => {});
+    render(<Toolbar />);
+    fireEvent.click(screen.getByText('▶ Baca'));
+    vi.advanceTimersByTime(3000);
+    expect(speakSpy).toHaveBeenCalledTimes(2);
+    fireEvent.click(screen.getByText('▶ Baca'));
+    vi.advanceTimersByTime(12000);
+    expect(speakSpy).toHaveBeenCalledTimes(7);
+
+    vi.useRealTimers();
+  });
+
+  it('unmounting cancels pending timers', () => {
+    vi.useFakeTimers();
+    const speakSpy = vi.spyOn(tts, 'speak').mockImplementation(() => {});
+    const { unmount } = render(<Toolbar />);
+    fireEvent.click(screen.getByText('▶ Baca'));
+    unmount();
+    vi.advanceTimersByTime(15000);
+    expect(speakSpy).not.toHaveBeenCalled();
+
+    vi.useRealTimers();
+  });
 });
