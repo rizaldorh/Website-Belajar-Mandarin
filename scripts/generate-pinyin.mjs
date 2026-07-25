@@ -9,8 +9,9 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 // Keyed by `hanzi_pos` to avoid false positives when the same character appears with different POS
 const PINYIN_OVERRIDES = {
   '了_particle': 'le', // Aspect-completion particle (neutral tone), not 'liǎo' (finish/understand)
-  // Note: 得 (dé vs de) is a known pinyin-pro limitation that persists even with full-sentence context.
-  // If this becomes important in future chapters, add a '得_particle' override.
+  // 得 (dé vs de) is a known pinyin-pro limitation that persists even with full-sentence
+  // context: the degree-complement particle (e.g. 跑得很快) is neutral-tone 'de', not 'dé'.
+  '得_particle': 'de',
 };
 
 export function annotateWithPinyin(chapter) {

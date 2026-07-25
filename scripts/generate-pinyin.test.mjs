@@ -36,4 +36,11 @@ describe('annotateWithPinyin', () => {
     );
     expect(result.paragraphs[0].sentences[0].tokens[0].pinyin).toBe('le');
   });
+
+  it('uses neutral-tone de for 得 degree-complement particle', () => {
+    const result = annotateWithPinyin(
+      chapterWithToken({ hanzi: '得', pos: 'particle', hsk: 3, gloss_id: '(partikel pelengkap tingkat)' })
+    );
+    expect(result.paragraphs[0].sentences[0].tokens[0].pinyin).toBe('de');
+  });
 });
