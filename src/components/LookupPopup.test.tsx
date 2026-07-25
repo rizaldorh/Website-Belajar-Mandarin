@@ -40,4 +40,18 @@ describe('LookupPopup', () => {
     fireEvent.keyDown(document, { key: 'Escape' });
     expect(useReaderStore.getState().activeTokenId).toBeNull();
   });
+
+  it('resets the saved state when the popup is reused for a different token', () => {
+    const anchor = document.createElement('span');
+    document.body.appendChild(anchor);
+    const otherToken: Token = { hanzi: '树桩', pinyin: 'shù zhuāng', pos: 'noun', hsk: null, gloss_id: 'tunggul pohon' };
+
+    const { rerender } = render(<LookupPopup token={token} anchorEl={anchor} sourceSentence="一只兔子跑得很快" />);
+    fireEvent.click(screen.getByText('Tambahkan'));
+    expect(screen.getByText('Sudah ditambahkan')).toBeInTheDocument();
+
+    rerender(<LookupPopup token={otherToken} anchorEl={anchor} sourceSentence="老教堂的屋顶" />);
+    expect(screen.getByText('Tambahkan')).toBeInTheDocument();
+    expect(screen.queryByText('Sudah ditambahkan')).not.toBeInTheDocument();
+  });
 });

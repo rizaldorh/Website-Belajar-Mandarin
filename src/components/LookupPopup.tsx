@@ -33,6 +33,10 @@ export default function LookupPopup({ token, anchorEl, sourceSentence }: LookupP
 
   const [alreadySaved, setAlreadySaved] = useState(() => isSaved(token.hanzi));
 
+  useEffect(() => {
+    setAlreadySaved(isSaved(token.hanzi));
+  }, [token.hanzi]);
+
   return (
     <div
       ref={refs.setFloating}
