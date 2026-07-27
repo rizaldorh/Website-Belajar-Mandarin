@@ -1,3 +1,4 @@
+import { act } from '@testing-library/react';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { useReaderStore } from './readerStore';
 
@@ -33,5 +34,30 @@ describe('useReaderStore', () => {
     expect(useReaderStore.getState().activeTokenId).toBe('p1s1-2');
     useReaderStore.getState().setActiveTokenId(null);
     expect(useReaderStore.getState().activeTokenId).toBeNull();
+  });
+});
+
+describe('readerStore additions', () => {
+  beforeEach(() => {
+    useReaderStore.setState({
+      activeWordIndex: null,
+      playbackRate: 1.0,
+      colorPalette: 'default',
+    });
+  });
+
+  it('setActiveWordIndex updates activeWordIndex', () => {
+    act(() => useReaderStore.getState().setActiveWordIndex('p1s1-2'));
+    expect(useReaderStore.getState().activeWordIndex).toBe('p1s1-2');
+  });
+
+  it('setPlaybackRate persists rate', () => {
+    act(() => useReaderStore.getState().setPlaybackRate(0.5));
+    expect(useReaderStore.getState().playbackRate).toBe(0.5);
+  });
+
+  it('setColorPalette updates palette', () => {
+    act(() => useReaderStore.getState().setColorPalette('colorblind'));
+    expect(useReaderStore.getState().colorPalette).toBe('colorblind');
   });
 });

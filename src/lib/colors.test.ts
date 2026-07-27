@@ -25,3 +25,17 @@ describe('getUnderlineClass', () => {
     expect(getUnderlineClass(punct, 'hsk')).toBe('border-transparent');
   });
 });
+
+describe('getUnderlineClass with palette', () => {
+  it('returns border-transparent for "off" palette regardless of pos', () => {
+    expect(getUnderlineClass(noun, 'pos', 'off')).toBe('border-transparent');
+  });
+
+  it('returns colorblind class for colorblind palette', () => {
+    expect(getUnderlineClass(noun, 'pos', 'colorblind')).toBe('border-pos-cb-noun');
+  });
+
+  it('returns default class when palette is default', () => {
+    expect(getUnderlineClass(noun, 'pos', 'default')).toBe('border-pos-noun');
+  });
+});
