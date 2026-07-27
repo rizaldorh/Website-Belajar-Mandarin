@@ -1,5 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { isSpeechSupported, speak } from './tts';
+import { isSpeechSupported, speak, buildCharOffsets } from './tts';
+import type { Token } from '@/types';
 
 describe('tts', () => {
   const originalSpeechSynthesis = (window as unknown as { speechSynthesis?: unknown }).speechSynthesis;
@@ -60,5 +61,26 @@ describe('tts', () => {
     const onEnd = vi.fn();
     speak('兔子', 'zh-CN', onEnd);
     expect(onEnd).toHaveBeenCalledTimes(1);
+  });
+});
+
+const tokens: Token[] = [
+  { hanzi: '从前', pinyin: 'cóng qián', pos: 'adv', hsk: 3, gloss_id: 'dahulu' },
+  { hanzi: '，', pinyin: '', pos: 'punct', hsk: null, gloss_id: '' },
+  { hanzi: '有', pinyin: 'yǒu', pos: 'verb', hsk: 1, gloss_id: 'ada' },
+];
+
+describe('buildCharOffsets', () => {
+  it('returns cumulative hanzi char counts', () => {
+    // 从前 = 2 chars, ， = 1 char, 有 = 1 char
+    expect(buildCharOffsets(tokens)).toEqual([0, 2, 3]);
+  });
+
+  it('returns [0] for single token', () => {
+    expect(buildCharOffsets([tokens[0]])).toEqual([0]);
+  });
+
+  it('returns [] for empty token array', () => {
+    expect(buildCharOffsets([])).toEqual([]);
   });
 });
