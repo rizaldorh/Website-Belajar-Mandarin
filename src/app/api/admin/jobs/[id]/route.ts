@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { createServerClient } from '@/lib/supabase/server';
 import { createClient } from '@supabase/supabase-js';
+import { isAdminEmail } from '@/lib/auth/admin';
 
 export async function GET(
   _request: Request,
@@ -9,8 +10,7 @@ export async function GET(
   const { id } = await params;
   const supabase = await createServerClient();
   const { data: { user } } = await supabase.auth.getUser();
-  const adminEmails = (process.env.ADMIN_EMAILS ?? '').split(',').map((e) => e.trim());
-  if (!user || !adminEmails.includes(user.email ?? '')) {
+  if (!user || !isAdminEmail(user.email)) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
 

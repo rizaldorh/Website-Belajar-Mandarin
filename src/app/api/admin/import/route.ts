@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { createClient } from '@supabase/supabase-js';
 import { createServerClient } from '@/lib/supabase/server';
 import { annotateChapter } from '@/lib/nlp/gemini-annotate';
+import { isAdminEmail } from '@/lib/auth/admin';
 
 const RequestSchema = z.object({
   bookTitle:    z.string().min(1),
@@ -28,8 +29,7 @@ export async function POST(request: Request): Promise<NextResponse> {
   // Auth + admin check
   const supabase = await createServerClient();
   const { data: { user } } = await supabase.auth.getUser();
-  const adminEmails = (process.env.ADMIN_EMAILS ?? '').split(',').map((e) => e.trim());
-  if (!user || !adminEmails.includes(user.email ?? '')) {
+  if (!user || !isAdminEmail(user.email)) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
 

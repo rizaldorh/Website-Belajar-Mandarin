@@ -11,7 +11,7 @@ export async function getProgress(
     .select('*')
     .eq('user_id', userId)
     .eq('chapter_id', chapterId)
-    .single();
+    .maybeSingle();
   if (error) return null;
   return data as UserProgress;
 }

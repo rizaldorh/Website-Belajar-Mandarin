@@ -1,5 +1,17 @@
+# dependencies
 node_modules
+
+# Next.js build output
+/.next/
+/out/
+
+# environment files — NEVER commit secrets
+.env
+.env*.local
+.env.production
+
+# misc
 dist
 .DS_Store
 .worktrees/
-.env.local
+graphify-out/

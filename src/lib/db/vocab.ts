@@ -47,6 +47,6 @@ export async function isVocabSaved(hanzi: string): Promise<boolean> {
     .select('id')
     .eq('user_id', user.id)
     .eq('hanzi', hanzi)
-    .single();
+    .maybeSingle();
   return data !== null;
 }

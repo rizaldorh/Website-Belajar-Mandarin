@@ -1,13 +1,13 @@
 import { redirect } from 'next/navigation';
 import { createServerClient } from '@/lib/supabase/server';
 import AdminForm from '@/components/admin/AdminForm';
+import { isAdminEmail } from '@/lib/auth/admin';
 
 export default async function AdminPage() {
   const supabase = await createServerClient();
   const { data: { user } } = await supabase.auth.getUser();
-  const adminEmails = (process.env.ADMIN_EMAILS ?? '').split(',').map((e) => e.trim());
 
-  if (!user || !adminEmails.includes(user.email ?? '')) {
+  if (!user || !isAdminEmail(user.email)) {
     redirect('/');
   }
 
