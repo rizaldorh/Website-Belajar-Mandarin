@@ -18,9 +18,17 @@ export default function ChapterList({ bookId, chapters, progress }: Props) {
     <ol className="space-y-2">
       {chapters.map((chapter, i) => {
         const p = getChapterProgress(chapter.id);
-        const scrollPct = p
-          ? Math.min(100, Math.round((p.scroll_position / Math.max(document.documentElement.scrollHeight - window.innerHeight, 1)) * 100))
-          : 0;
+        const scrollPct =
+          p && typeof window !== 'undefined'
+            ? Math.min(
+                100,
+                Math.round(
+                  (p.scroll_position /
+                    Math.max(document.documentElement.scrollHeight - window.innerHeight, 1)) *
+                    100,
+                ),
+              )
+            : 0;
 
         return (
           <li key={chapter.id}>

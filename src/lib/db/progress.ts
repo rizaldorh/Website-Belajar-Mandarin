@@ -1,6 +1,5 @@
 import { createServerClient } from '@/lib/supabase/server';
-import { createClient } from '@/lib/supabase/client';
-import type { UserProgress, ProgressUpdate } from '@/types';
+import type { UserProgress } from '@/types';
 
 export async function getProgress(
   userId: string,
@@ -29,25 +28,4 @@ export async function getBookProgress(
     .eq('chapters.book_id', bookId);
   if (error) return [];
   return data as UserProgress[];
-}
-
-// Client-side: called from browser on scroll / completion
-export async function upsertProgressClient(
-  chapterId: string,
-  update: ProgressUpdate,
-): Promise<void> {
-  const supabase = createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) return;
-  await supabase.from('user_progress').upsert(
-    {
-      user_id: user.id,
-      chapter_id: chapterId,
-      ...update,
-      updated_at: new Date().toISOString(),
-    },
-    { onConflict: 'user_id,chapter_id' },
-  );
 }

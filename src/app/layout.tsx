@@ -3,10 +3,10 @@ import { Noto_Serif_SC } from 'next/font/google';
 import '../index.css';
 
 const notoSerifSC = Noto_Serif_SC({
-  subsets: ['chinese-simplified'],
   weight: ['400', '700'],
   variable: '--font-hanzi',
   display: 'swap',
+  preload: false,
 });
 
 export const metadata: Metadata = {

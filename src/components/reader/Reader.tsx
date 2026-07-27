@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from 'react';
 import type { Chapter, ChapterContent } from '@/types';
 import { useReaderStore } from '@/store/readerStore';
 import { findSentenceText, findToken } from '@/lib/tokenId';
-import { upsertProgressClient } from '@/lib/db/progress';
+import { upsertProgressClient } from '@/lib/db/progress.client';
 import WordToken from './WordToken';
 import LookupPopup from './LookupPopup';
 import ParagraphActions from './ParagraphActions';

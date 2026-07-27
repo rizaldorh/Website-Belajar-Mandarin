@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import type { Route } from 'next';
 import ProgressRing from './ProgressRing';
 import type { Book } from '@/types';
 
@@ -9,7 +10,7 @@ interface Props {
 }
 
 export default function BookCard({ book, progressPercent, continueHref }: Props) {
-  const href = continueHref ?? `/books/${book.id}`;
+  const href = (continueHref ?? `/books/${book.id}`) as Route;
 
   return (
     <Link href={href} className="flex flex-col rounded-xl border bg-white p-4 shadow-sm hover:shadow transition-shadow">
