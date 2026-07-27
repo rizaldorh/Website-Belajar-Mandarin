@@ -1,10 +1,10 @@
 import { useEffect, useRef } from 'react';
 import chapterData from '../data/chapter1.json';
-import type { Chapter } from '../types';
+import type { ChapterContent } from '../types';
 import { useReaderStore } from '../store/readerStore';
 import * as tts from '../lib/tts';
 
-const chapter = chapterData as Chapter;
+const chapter = chapterData as ChapterContent;
 
 export default function Toolbar() {
   const showChinese = useReaderStore((s) => s.showChinese);

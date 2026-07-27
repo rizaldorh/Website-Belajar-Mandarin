@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { findSentenceText, findToken, parseTokenId } from './tokenId';
-import type { Chapter } from '../types';
+import type { ChapterContent } from '../types';
 
-const chapter: Chapter = {
+const chapter: ChapterContent = {
   title: 't',
   chapterLabel: 'c',
   paragraphs: [

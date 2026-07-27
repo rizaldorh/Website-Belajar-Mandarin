@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import chapterData from '../data/chapter1.json';
-import type { Chapter } from '../types';
+import type { ChapterContent } from '../types';
 import { useReaderStore } from '../store/readerStore';
 import { findSentenceText, findToken } from '../lib/tokenId';
 import WordToken from './WordToken';
 import LookupPopup from './LookupPopup';
 import ParagraphActions from './ParagraphActions';
 
-const chapter = chapterData as Chapter;
+const chapter = chapterData as ChapterContent;
 
 export default function Reader() {
   const showChinese = useReaderStore((s) => s.showChinese);
