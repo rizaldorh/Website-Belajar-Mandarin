@@ -72,6 +72,9 @@ export default function LookupPopup({ token, anchorEl, sourceSentence }: Props) 
           <div>
             <span className="font-[var(--font-hanzi)] text-2xl">{token.hanzi}</span>
             <span className="ml-2 text-sm text-gray-500">{token.pinyin}</span>
+            {token.gloss_id && (
+              <p className="mt-0.5 text-sm text-gray-700">{token.gloss_id}</p>
+            )}
           </div>
           {tts.isSpeechSupported() && (
             <button

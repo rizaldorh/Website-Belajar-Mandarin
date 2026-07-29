@@ -93,7 +93,6 @@ export default function Reader({ chapter, chapterId, initialScrollPosition = 0 }
               )}
               <ParagraphActions
                 translation={paragraph.translation_id}
-                sentences={paragraph.sentences}
               />
             </div>
           ))}

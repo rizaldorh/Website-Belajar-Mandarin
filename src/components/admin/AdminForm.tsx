@@ -11,7 +11,7 @@ export default function AdminForm() {
   const [sourceUrl, setSourceUrl] = useState('');
   const [chapterTitle, setChapterTitle] = useState('');
   const [chapterOrder, setChapterOrder] = useState(1);
-  const [rawText, setRawText] = useState('');
+  const [jsonFile, setJsonFile] = useState<File | null>(null);
   const [jobId, setJobId] = useState<string | null>(null);
   const [job, setJob] = useState<ImportJob | null>(null);
   const [submitting, setSubmitting] = useState(false);
@@ -19,16 +19,27 @@ export default function AdminForm() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (!jsonFile) { setError('Pilih file JSON terlebih dahulu.'); return; }
     setSubmitting(true);
     setError(null);
     setJob(null);
+
+    let contentJson: unknown;
+    try {
+      const text = await jsonFile.text();
+      contentJson = JSON.parse(text) as unknown;
+    } catch {
+      setError('File bukan JSON yang valid.');
+      setSubmitting(false);
+      return;
+    }
 
     const res = await fetch('/api/admin/import', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         bookTitle, bookAuthor, coverEmoji, license, sourceUrl,
-        chapterTitle, chapterOrder, rawText,
+        chapterTitle, chapterOrder, contentJson,
       }),
     });
 
@@ -111,14 +122,21 @@ export default function AdminForm() {
             className="rounded border px-3 py-2 text-sm"
           />
         </div>
-        <textarea
-          placeholder="Tempel teks Mandarin di sini…"
-          value={rawText}
-          onChange={(e) => setRawText(e.target.value)}
-          required
-          rows={10}
-          className="w-full rounded border px-3 py-2 text-sm font-[var(--font-hanzi)]"
-        />
+        <div className="space-y-1">
+          <label className="text-sm text-gray-600">
+            File JSON yang sudah dianotasi (format ChapterContent) *
+          </label>
+          <input
+            type="file"
+            accept=".json,application/json"
+            required
+            onChange={(e) => setJsonFile(e.target.files?.[0] ?? null)}
+            className="block w-full text-sm text-gray-700 file:mr-3 file:rounded file:border-0 file:bg-teal-50 file:px-3 file:py-1.5 file:text-sm file:font-medium file:text-teal-700 hover:file:bg-teal-100"
+          />
+          {jsonFile && (
+            <p className="text-xs text-gray-500">{jsonFile.name} ({Math.round(jsonFile.size / 1024)} KB)</p>
+          )}
+        </div>
       </fieldset>
 
       {error && <p className="text-sm text-red-600">{error}</p>}

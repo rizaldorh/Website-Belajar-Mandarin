@@ -25,6 +25,6 @@ describe('LookupPopup Cari', () => {
   it('Cari button expands gloss panel', () => {
     render(<LookupPopup token={mockToken} anchorEl={mockAnchor} sourceSentence="农夫种地" />);
     fireEvent.click(screen.getByText('Cari'));
-    expect(screen.getByText(/petani/)).toBeInTheDocument();
+    expect(screen.getAllByText(/petani/).length).toBeGreaterThanOrEqual(1);
   });
 });

@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createClient } from '@supabase/supabase-js';
 import { createServerClient } from '@/lib/supabase/server';
-import { annotateChapter } from '@/lib/nlp/gemini-annotate';
+import { ChapterContentSchema } from '@/lib/nlp/gemini-annotate';
 import { isAdminEmail } from '@/lib/auth/admin';
 
 const RequestSchema = z.object({
@@ -13,7 +13,7 @@ const RequestSchema = z.object({
   sourceUrl:    z.string().url().optional().or(z.literal('')),
   chapterTitle: z.string().optional(),
   chapterOrder: z.number().int().min(1),
-  rawText:      z.string().min(10),
+  contentJson:  z.unknown(),
   existingBookId: z.string().uuid().optional(),
 });
 
@@ -39,8 +39,18 @@ export async function POST(request: Request): Promise<NextResponse> {
     return NextResponse.json({ error: parsed.error.message }, { status: 400 });
   }
 
+  // Validate pre-annotated JSON against schema
+  const contentParsed = ChapterContentSchema.safeParse(parsed.data.contentJson);
+  if (!contentParsed.success) {
+    return NextResponse.json(
+      { error: 'contentJson tidak valid: ' + contentParsed.error.message },
+      { status: 400 },
+    );
+  }
+
   const admin = adminClient();
   const data = parsed.data;
+  const content = contentParsed.data;
 
   // Create import job
   const { data: job, error: jobErr } = await admin
@@ -72,16 +82,6 @@ export async function POST(request: Request): Promise<NextResponse> {
       return NextResponse.json({ error: bookErr.message }, { status: 500 });
     }
     bookId = book.id as string;
-  }
-
-  // Run NLP
-  let content;
-  try {
-    content = await annotateChapter(data.rawText, process.env.GEMINI_API_KEY!);
-  } catch (err) {
-    const msg = err instanceof Error ? err.message : String(err);
-    await admin.from('import_jobs').update({ status: 'error', log: msg, book_id: bookId }).eq('id', job.id);
-    return NextResponse.json({ error: msg }, { status: 500 });
   }
 
   // Count non-punct tokens

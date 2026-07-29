@@ -10,11 +10,10 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "generate:pinyin": "node scripts/generate-pinyin.mjs",
-    "seed": "npx tsx scripts/seed.ts"
+    "seed": "node --env-file=.env.local --import tsx/esm scripts/seed.ts"
   },
   "dependencies": {
     "@floating-ui/react": "^0.26.28",
-    "@google/generative-ai": "^0.24.1",
     "@supabase/ssr": "^0.12.3",
     "@supabase/supabase-js": "^2.110.8",
     "next": "^15.5.22",
