@@ -57,7 +57,16 @@ export interface Chapter {
   title: string | null;
   content_json: { paragraphs: Paragraph[] };
   word_count: number | null;
+  audio_url: string | null;
   created_at: string;
+}
+
+export interface ChapterSummary {
+  id: string;
+  book_id: string;
+  order_index: number;
+  title: string | null;
+  audio_url: string | null;
 }
 
 export interface UserProgress {

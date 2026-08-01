@@ -1,4 +1,4 @@
-import { notFound, redirect } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { createServerClient } from '@/lib/supabase/server';
 import { getBook } from '@/lib/db/books';
@@ -13,7 +13,6 @@ export default async function BookPage({ params }: Props) {
   const { bookId } = await params;
   const supabase = await createServerClient();
   const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect('/auth/login');
 
   const [book, chapters] = await Promise.all([
     getBook(bookId),
@@ -22,15 +21,18 @@ export default async function BookPage({ params }: Props) {
 
   if (!book) notFound();
 
-  const { data: progress } = await supabase
-    .from('user_progress')
-    .select('*')
-    .eq('user_id', user.id)
-    .in('chapter_id', chapters.map((c) => c.id));
+  const progress = user
+    ? ((await supabase
+        .from('user_progress')
+        .select('*')
+        .eq('user_id', user.id)
+        .in('chapter_id', chapters.map((c) => c.id))
+      ).data ?? [])
+    : [];
 
-  const firstIncomplete = chapters.find(
-    (c) => !(progress ?? []).find((p) => p.chapter_id === c.id && p.completed),
-  );
+  const firstIncomplete = user
+    ? chapters.find((c) => !progress.find((p) => p.chapter_id === c.id && p.completed))
+    : null;
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-8">
@@ -53,7 +55,7 @@ export default async function BookPage({ params }: Props) {
       )}
       <div className="mt-6">
         <h2 className="mb-3 font-semibold">Daftar bab</h2>
-        <ChapterList bookId={bookId} chapters={chapters} progress={progress ?? []} />
+        <ChapterList bookId={bookId} chapters={chapters} progress={progress} />
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import { createServerClient } from '@/lib/supabase/server';
-import type { Chapter } from '@/types';
+import type { Chapter, ChapterSummary } from '@/types';
 
 export async function getChaptersByBook(bookId: string): Promise<Chapter[]> {
   const supabase = await createServerClient();
@@ -21,6 +21,18 @@ export async function getChapter(id: string): Promise<Chapter | null> {
     .single();
   if (error) return null;
   return data as Chapter;
+}
+
+/** Lightweight query — no content_json. Used for admin and nav dropdowns. */
+export async function getChapterSummaries(bookId: string): Promise<ChapterSummary[]> {
+  const supabase = await createServerClient();
+  const { data, error } = await supabase
+    .from('chapters')
+    .select('id, book_id, order_index, title, audio_url')
+    .eq('book_id', bookId)
+    .order('order_index', { ascending: true });
+  if (error) throw new Error(error.message);
+  return data as ChapterSummary[];
 }
 
 export async function getAdjacentChapters(

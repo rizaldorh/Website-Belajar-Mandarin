@@ -4,16 +4,48 @@ export function isSpeechSupported(): boolean {
   return typeof window !== 'undefined' && 'speechSynthesis' in window;
 }
 
-export function speak(text: string, lang = 'zh-CN', onEnd?: () => void): void {
+let _voiceCache: SpeechSynthesisVoice | null | undefined = undefined;
+
+/** Pick the best available Chinese voice, preferring zh-TW neural voices. */
+export function getBestChineseVoice(): SpeechSynthesisVoice | null {
+  if (_voiceCache !== undefined) return _voiceCache;
+  const voices = speechSynthesis.getVoices();
+  if (!voices.length) return null;
+  const isNeural = (v: SpeechSynthesisVoice) => /natural|neural|online/i.test(v.name);
+  _voiceCache =
+    voices.find((v) => v.lang.startsWith('zh-TW') && isNeural(v)) ??
+    voices.find((v) => v.lang.startsWith('zh-CN') && isNeural(v)) ??
+    voices.find((v) => v.lang.startsWith('zh-TW')) ??
+    voices.find((v) => v.lang.startsWith('zh-CN')) ??
+    voices.find((v) => v.lang.startsWith('zh')) ??
+    null;
+  return _voiceCache;
+}
+
+if (typeof window !== 'undefined') {
+  speechSynthesis.addEventListener('voiceschanged', () => {
+    _voiceCache = undefined;
+  });
+}
+
+function applyChineseVoice(utterance: SpeechSynthesisUtterance): void {
+  const voice = getBestChineseVoice();
+  if (voice) {
+    utterance.voice = voice;
+    utterance.lang = voice.lang;
+  } else {
+    utterance.lang = 'zh-TW';
+  }
+}
+
+export function speak(text: string, onEnd?: () => void): void {
   if (!isSpeechSupported()) {
     onEnd?.();
     return;
   }
   const utterance = new SpeechSynthesisUtterance(text);
-  utterance.lang = lang;
-  if (onEnd) {
-    utterance.onend = onEnd;
-  }
+  applyChineseVoice(utterance);
+  if (onEnd) utterance.onend = onEnd;
   window.speechSynthesis.cancel();
   window.speechSynthesis.speak(utterance);
 }
@@ -41,7 +73,7 @@ export function speakWithHighlight(
   }
 
   const utterance = new SpeechSynthesisUtterance(text);
-  utterance.lang = 'zh-CN';
+  applyChineseVoice(utterance);
   utterance.rate = rate;
 
   let boundaryFired = false;

@@ -79,16 +79,21 @@ export default function Reader({ chapter, chapterId, initialScrollPosition = 0 }
           {paragraphs.map((paragraph) => (
             <div key={paragraph.id}>
               {showChinese && (
-                <div className="flex flex-wrap items-end gap-y-2 leading-loose">
-                  {paragraph.sentences.map((sentence) =>
-                    sentence.tokens.map((token, index) => (
-                      <WordToken
-                        key={`${sentence.id}-${index}`}
-                        token={token}
-                        tokenId={`${sentence.id}-${index}`}
-                      />
-                    )),
-                  )}
+                <div className="space-y-3">
+                  {paragraph.sentences.map((sentence) => (
+                    <div
+                      key={sentence.id}
+                      className="flex flex-wrap items-end gap-y-2 leading-loose"
+                    >
+                      {sentence.tokens.map((token, index) => (
+                        <WordToken
+                          key={`${sentence.id}-${index}`}
+                          token={token}
+                          tokenId={`${sentence.id}-${index}`}
+                        />
+                      ))}
+                    </div>
+                  ))}
                 </div>
               )}
               <ParagraphActions

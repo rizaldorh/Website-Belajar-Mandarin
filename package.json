@@ -10,7 +10,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "generate:pinyin": "node scripts/generate-pinyin.mjs",
-    "seed": "node --env-file=.env.local --import tsx/esm scripts/seed.ts"
+    "seed": "node --env-file=.env.local --import tsx/esm scripts/seed.ts",
+    "seed:lessons": "node --env-file=.env.local --import tsx/esm scripts/seed-lessons.ts"
   },
   "dependencies": {
     "@floating-ui/react": "^0.26.28",
