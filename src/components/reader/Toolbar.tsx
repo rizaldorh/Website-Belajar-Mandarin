@@ -135,20 +135,36 @@ export default function Toolbar({ chapter, bookId, allChapters }: Props) {
 
       setTtsLoading(true);
 
+      // Retry loop: server returns 503 {retry:true, wait:N} while model warms up
       let res: Response | null = null;
-      try {
-        res = await fetch('/api/tts', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ text }),
-        });
-      } catch {
-        // network error — fall through to Web Speech
+      for (let attempt = 0; attempt < 5; attempt++) {
+        try {
+          res = await fetch('/api/tts', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ text }),
+          });
+        } catch {
+          break; // network error — fall through to Web Speech
+        }
+
+        if (playbackId !== playbackIdRef.current) return;
+
+        if (res.status === 503) {
+          const data = await res.json().catch(() => ({ wait: 10 })) as { retry?: boolean; wait?: number };
+          if (data.retry) {
+            const waitMs = Math.min((data.wait ?? 10) * 1000, 20000);
+            await new Promise((r) => setTimeout(r, waitMs));
+            if (playbackId !== playbackIdRef.current) return;
+            continue;
+          }
+        }
+        break;
       }
 
       if (playbackId !== playbackIdRef.current) return;
 
-      // 501 = HF_TOKEN not configured; any error → fall back to Web Speech
+      // 501 = HF_TOKEN not configured; any non-ok → fall back to Web Speech
       if (!res?.ok) {
         setTtsLoading(false);
         webSpeechPlayFrom(index);
