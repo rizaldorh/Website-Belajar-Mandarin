@@ -33,15 +33,8 @@ export default function Toolbar({ chapter, bookId, allChapters }: Props) {
   const setActiveWordIndex = useReaderStore((s) => s.setActiveWordIndex);
 
   const [playState, setPlayState] = useState<PlayState>('idle');
-  const [ttsLoading, setTtsLoading] = useState(false);
 
-  // native recorded audio (chapter.audio_url)
   const nativeAudioRef = useRef<HTMLAudioElement | null>(null);
-
-  // HF TTS: one Audio element per sentence
-  const ttsSentenceAudioRef = useRef<HTMLAudioElement | null>(null);
-
-  // Web Speech fallback state
   const playbackIdRef = useRef(0);
   const sentencesRef = useRef<Sentence[]>([]);
   const currentSentenceRef = useRef(0);
@@ -55,8 +48,6 @@ export default function Toolbar({ chapter, bookId, allChapters }: Props) {
     return () => {
       nativeAudioRef.current?.pause();
       nativeAudioRef.current = null;
-      ttsSentenceAudioRef.current?.pause();
-      ttsSentenceAudioRef.current = null;
     };
   }, []);
 
@@ -74,7 +65,7 @@ export default function Toolbar({ chapter, bookId, allChapters }: Props) {
       setPlayState('playing');
     } else {
       sentencesRef.current = chapter.content_json.paragraphs.flatMap((p) => p.sentences);
-      void hfTtsPlayFrom(0);
+      ttsPlayFrom(0);
     }
   }
 
@@ -82,12 +73,10 @@ export default function Toolbar({ chapter, bookId, allChapters }: Props) {
     if (hasAudio && nativeAudioRef.current) {
       nativeAudioRef.current.pause();
     } else {
-      ttsSentenceAudioRef.current?.pause(); // resolves the onpause promise below
       playbackIdRef.current++;
       window.speechSynthesis.cancel();
     }
     setPlayState('paused');
-    setTtsLoading(false);
   }
 
   function handleResume() {
@@ -95,7 +84,7 @@ export default function Toolbar({ chapter, bookId, allChapters }: Props) {
       void nativeAudioRef.current.play();
       setPlayState('playing');
     } else {
-      void hfTtsPlayFrom(currentSentenceRef.current);
+      ttsPlayFrom(currentSentenceRef.current);
     }
   }
 
@@ -104,104 +93,16 @@ export default function Toolbar({ chapter, bookId, allChapters }: Props) {
       nativeAudioRef.current.pause();
       nativeAudioRef.current.currentTime = 0;
     } else {
-      ttsSentenceAudioRef.current?.pause();
-      ttsSentenceAudioRef.current = null;
       playbackIdRef.current++;
       window.speechSynthesis.cancel();
       setActiveWordIndex(null);
     }
     setPlayState('idle');
-    setTtsLoading(false);
   }
 
-  // ── HF TTS (sentence-by-sentence, Web Speech fallback on error) ────────
+  // ── Web Speech TTS ─────────────────────────────────────────────────────
 
-  async function hfTtsPlayFrom(fromIndex: number) {
-    const playbackId = ++playbackIdRef.current;
-    setPlayState('playing');
-
-    async function playAt(index: number): Promise<void> {
-      currentSentenceRef.current = index;
-      if (playbackId !== playbackIdRef.current) return;
-      if (index >= sentencesRef.current.length) {
-        setActiveWordIndex(null);
-        setPlayState('idle');
-        setTtsLoading(false);
-        return;
-      }
-
-      const sentence = sentencesRef.current[index];
-      const text = sentence.tokens.map((t) => t.hanzi).join('');
-
-      setTtsLoading(true);
-
-      // Retry loop: server returns 503 {retry:true, wait:N} while model warms up
-      let res: Response | null = null;
-      for (let attempt = 0; attempt < 5; attempt++) {
-        try {
-          res = await fetch('/api/tts', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ text }),
-          });
-        } catch {
-          break; // network error — fall through to Web Speech
-        }
-
-        if (playbackId !== playbackIdRef.current) return;
-
-        if (res.status === 503) {
-          const data = await res.json().catch(() => ({ wait: 10 })) as { retry?: boolean; wait?: number };
-          if (data.retry) {
-            const waitMs = Math.min((data.wait ?? 10) * 1000, 20000);
-            await new Promise((r) => setTimeout(r, waitMs));
-            if (playbackId !== playbackIdRef.current) return;
-            continue;
-          }
-        }
-        break;
-      }
-
-      if (playbackId !== playbackIdRef.current) return;
-
-      // 501 = HF_TOKEN not configured; any non-ok → fall back to Web Speech
-      if (!res?.ok) {
-        setTtsLoading(false);
-        webSpeechPlayFrom(index);
-        return;
-      }
-
-      const blob = await res.blob();
-      if (playbackId !== playbackIdRef.current) return;
-
-      const url = URL.createObjectURL(blob);
-      const audio = new Audio(url);
-      ttsSentenceAudioRef.current = audio;
-      setTtsLoading(false);
-
-      // Highlight first token of the sentence while audio plays
-      if (sentence.tokens.length > 0) {
-        setActiveWordIndex(`${sentence.id}-0`);
-      }
-
-      await new Promise<void>((resolve) => {
-        audio.onended = () => { URL.revokeObjectURL(url); ttsSentenceAudioRef.current = null; resolve(); };
-        audio.onerror = () => { URL.revokeObjectURL(url); ttsSentenceAudioRef.current = null; resolve(); };
-        audio.onpause = () => resolve(); // fired when handlePause() calls .pause()
-        void audio.play();
-      });
-
-      if (playbackId !== playbackIdRef.current) return;
-      setActiveWordIndex(null);
-      await playAt(index + 1);
-    }
-
-    await playAt(fromIndex);
-  }
-
-  // ── Web Speech API fallback ────────────────────────────────────────────
-
-  function webSpeechPlayFrom(fromIndex: number) {
+  function ttsPlayFrom(fromIndex: number) {
     const playbackId = ++playbackIdRef.current;
     setPlayState('playing');
 
@@ -291,15 +192,9 @@ export default function Toolbar({ chapter, bookId, allChapters }: Props) {
 
             {playState === 'playing' && (
               <>
-                {ttsLoading ? (
-                  <span className="rounded bg-teal-50 px-2 py-1 text-teal-700">
-                    ⏳ Memuat…
-                  </span>
-                ) : (
-                  <button onClick={handlePause} className="rounded bg-amber-500 px-2 py-1 text-white">
-                    ⏸ Jeda
-                  </button>
-                )}
+                <button onClick={handlePause} className="rounded bg-amber-500 px-2 py-1 text-white">
+                  ⏸ Jeda
+                </button>
                 <button
                   onClick={stopPlayback}
                   className="rounded bg-gray-200 px-2 py-1 text-gray-700"
@@ -325,7 +220,7 @@ export default function Toolbar({ chapter, bookId, allChapters }: Props) {
               </>
             )}
 
-            {/* Speed buttons only relevant for Web Speech fallback */}
+            {/* Speed buttons only relevant for Web Speech */}
             {!hasAudio && (
               <div className="flex gap-1">
                 {rates.map((r) => (
